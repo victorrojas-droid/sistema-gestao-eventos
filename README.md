@@ -92,7 +92,7 @@ Usuário -> Frontend -> Backend -> Banco de Dados
 - Node.js ou Python (Backend)
 - MySQL ou PostgreSQL (Banco de dados)
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 As seguintes tecnologias podem ser utilizadas para o desenvolvimento do sistema:
 
@@ -115,6 +115,18 @@ Provedores de cloud que poderiam ser utilizados:
 - AWS
 - Microsoft Azure
 - Google Cloud
+
+## Fluxo de Funcionamento do Sistema
+
+O funcionamento do sistema ocorre da seguinte forma:
+
+1. O usuário acessa a aplicação pelo navegador.
+2. O frontend envia as requisições para o backend.
+3. O backend processa as informações e aplica as regras de negócio.
+4. O backend consulta ou grava informações no banco de dados.
+5. Os dados são retornados para o frontend e exibidos ao usuário.
+
+Esse modelo permite que o sistema seja facilmente escalado em ambientes de computação em nuvem.
 
   ## Autor
   Victor Gabriel Rojas de Araujo

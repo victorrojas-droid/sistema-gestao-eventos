@@ -3,6 +3,18 @@
 ## Descrição
 O sistema de Gestão de Eventos é uma aplicação desenvolvida para facilitar o gerenciamento de eventos, permitindo o cadastro, organização e acompanhamento de eventos e participantes.
 
+## Tipos de Usuários
+
+### Organizador
+- Criar eventos
+- Editar eventos
+- Visualizar lista de participantes
+
+### Participante
+- Visualizar eventos disponíveis
+- Inscrever-se em eventos
+- Ver detalhes dos eventos
+
 ## Objetivo
 Objetivo do sistema é centralizar as informações de eventos em uma plattaforma digital, facilitando a administração e o acesso às informações pelos organizadores.
 

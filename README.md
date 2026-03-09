@@ -128,5 +128,9 @@ O funcionamento do sistema ocorre da seguinte forma:
 
 Esse modelo permite que o sistema seja facilmente escalado em ambientes de computação em nuvem.
 
+## Conclusão
+
+O Sistema de Gestão de Eventos demonstra como aplicações modernas podem ser estruturadas utilizando conceitos de computação em nuvem. A separação entre frontend, backend e banco de dados permite maior escalabilidade, organização e facilidade de manutenção do sistema.
+
   ## Autor
   Victor Gabriel Rojas de Araujo

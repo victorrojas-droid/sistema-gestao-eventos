@@ -102,7 +102,7 @@ As seguintes tecnologias podem ser utilizadas para o desenvolvimento do sistema:
 - Node.js
 - Banco de dados MySQL
 
-## ☁️ Infraestrutura em Cloud
+## Infraestrutura em Cloud
 
 O sistema pode ser hospedado em uma infraestrutura de computação em nuvem, utilizando serviços como:
 

@@ -20,8 +20,10 @@ Objetivo do sistema é centralizar as informações de eventos em uma plattaform
 
 ## Funcionalidades
 - Cadastro de eventos
+- Edição de eventos
 - Listagem de eventos
 - Cadastro de participantes
+- Inscrição em eventos
 - Controle de inscrições
 - Visualização de detalhes do evento
 
@@ -42,11 +44,10 @@ O sistema utiliza um banco de dados relacional para armazenar informações sobr
 
 ### Tabela: eventos
 
-- id_evento
-- nome_evento
-- descricao
-- data_evento
-- local_evento
+- Nome do evento
+- Descrição
+- Data
+- Local
 
 ### Tabela: participantes
 

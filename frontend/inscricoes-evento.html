@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscrições do Evento</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:40px;
+    background: linear-gradient(135deg, #121212, #1e1428);
+}
+
+/* TOPBAR */
+
+.topbar{
+    position:fixed;
+    top:20px;
+    left:20px;
+    right:20px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    z-index:999;
+    pointer-events:none;
+}
+
+.topbar-esquerda,
+.topbar-direita{
+    display:flex;
+    gap:10px;
+    pointer-events:auto;
+}
+
+.topbar-direita{
+    justify-content:flex-end;
+}
+
+.topbar-titulo{
+    justify-self:center;
+    background:#ffffffcc;
+    padding:10px 18px;
+    border-radius:10px;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
+    backdrop-filter:blur(5px);
+    font-weight:bold;
+}
+
+.top-btn{
+    background:#ffffffcc;
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
+}
+
+.top-btn:hover{
+    background:#f0f0f0;
+}
+
+.gif-superior-direito{
+    width:120px;
+    height:120px;
+    background-image:url("background.gif");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+/* CONTEÚDO */
+
+.container{
+    max-width:900px;
+    margin:80px auto 0;
+    background:#fff;
+    padding:24px;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h1,h2{
+    color:#333;
+    margin-top:0;
+}
+
+.inscricao{
+    background:#f9f9f9;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:14px;
+    margin-top:12px;
+}
+
+.botao-cancelar{
+    background:#e53935;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:10px;
+    width:100%;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+.botao-cancelar:hover{
+    opacity:0.9;
+}
+
+.vazio{
+    background:#f9f9f9;
+    border:1px dashed #ccc;
+    border-radius:10px;
+    padding:14px;
+    color:#777;
+    margin-top:12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+<div class="topbar-esquerda">
+<button class="top-btn" onclick="history.back()">⬅ Voltar</button>
+<button class="top-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+<button class="top-btn" onclick="window.location.href='organizador.html'">Menu</button>
+<button class="top-btn" onclick="sair()">Sair</button>
+</div>
+
+<div class="topbar-titulo">Inscrições do Evento</div>
+
+<div class="topbar-direita">
+<div class="gif-superior-direito"></div>
+</div>
+
+</div>
+
+<div class="container">
+
+<h1>Lista de Inscrições</h1>
+<h2 id="tituloEvento"></h2>
+<div id="listaInscricoes"></div>
+
+</div>
+
+<script>
+
+let inscricoes = JSON.parse(localStorage.getItem("inscricoes")) || [];
+let nomeEvento = localStorage.getItem("eventoSelecionadoOrganizador");
+
+function salvarInscricoes(){
+    localStorage.setItem("inscricoes", JSON.stringify(inscricoes));
+}
+
+function cancelarInscricao(nomeEvento, nomeParticipante, celularParticipante){
+
+inscricoes = inscricoes.filter(i =>
+    !(i.evento === nomeEvento && i.nome === nomeParticipante && i.celular === celularParticipante)
+);
+
+salvarInscricoes();
+mostrarInscricoes();
+
+}
+
+function mostrarInscricoes(){
+
+document.getElementById("tituloEvento").innerText = nomeEvento || "Evento não encontrado";
+
+const lista = document.getElementById("listaInscricoes");
+const inscricoesEvento = inscricoes.filter(i => i.evento === nomeEvento);
+
+if(inscricoesEvento.length === 0){
+    lista.className = "vazio";
+    lista.innerHTML = "Nenhuma inscrição recebida para este evento.";
+    return;
+}
+
+lista.className = "";
+
+let conteudo = "";
+
+for(let i=0; i<inscricoesEvento.length; i++){
+    conteudo += `
+    <div class="inscricao">
+        <h3>${inscricoesEvento[i].nome}</h3>
+        <p><strong>Data de nascimento:</strong> ${inscricoesEvento[i].nascimento}</p>
+        <p><strong>Celular:</strong> ${inscricoesEvento[i].celular}</p>
+        <button class="botao-cancelar" onclick="cancelarInscricao('${nomeEvento}','${inscricoesEvento[i].nome}','${inscricoesEvento[i].celular}')">
+            Cancelar inscrição
+        </button>
+    </div>
+    `;
+}
+
+lista.innerHTML = conteudo;
+
+}
+
+function sair(){
+localStorage.removeItem("tipoUsuario");
+window.location.href = "index.html";
+}
+
+mostrarInscricoes();
+
+</script>
+
+</body>
+</html>

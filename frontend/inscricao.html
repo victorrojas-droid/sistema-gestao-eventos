@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscrição no Evento</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:40px;
+    background: linear-gradient(135deg, #121212, #1e1428);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    box-sizing:border-box;
+}
+
+/* TOPBAR */
+
+.topbar{
+    position:fixed;
+    top:20px;
+    left:20px;
+    right:20px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    z-index:999;
+    pointer-events:none;
+}
+
+.topbar-esquerda,
+.topbar-direita{
+    display:flex;
+    gap:10px;
+    pointer-events:auto;
+}
+
+.topbar-direita{
+    justify-content:flex-end;
+}
+
+.topbar-titulo{
+    justify-self:center;
+    background:#ffffffcc;
+    padding:10px 18px;
+    border-radius:10px;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
+    backdrop-filter:blur(5px);
+    font-weight:bold;
+}
+
+.top-btn{
+    background:#ffffffcc;
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
+}
+
+.top-btn:hover{
+    background:#f0f0f0;
+}
+
+.gif-superior-direito{
+    width:120px;
+    height:120px;
+    background-image:url("background.gif");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+/* CONTEÚDO */
+
+.container{
+    width:100%;
+    max-width:500px;
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 0 15px rgba(0,0,0,0.25);
+    margin-top:80px;
+}
+
+h1{
+    margin-top:0;
+    color:#333;
+}
+
+#eventoInfo{
+    background:#f9f9f9;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:20px;
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#4caf50;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+<div class="topbar-esquerda">
+<button class="top-btn" onclick="history.back()">⬅ Voltar</button>
+<button class="top-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+<button class="top-btn" onclick="sair()">Sair</button>
+</div>
+
+<div class="topbar-titulo">Inscrição no Evento</div>
+
+<div class="topbar-direita">
+<div class="gif-superior-direito"></div>
+</div>
+
+</div>
+
+<div class="container">
+
+<h1>Formulário de Inscrição</h1>
+
+<div id="eventoInfo"></div>
+
+<div class="form-group">
+<label>Nome completo</label>
+<input type="text" id="nome">
+</div>
+
+<div class="form-group">
+<label>Data de nascimento</label>
+<input type="date" id="nascimento">
+</div>
+
+<div class="form-group">
+<label>Celular</label>
+<input type="text" id="celular">
+</div>
+
+<button onclick="confirmarInscricao()">Confirmar inscrição</button>
+
+</div>
+
+<script>
+
+const evento = JSON.parse(localStorage.getItem("eventoSelecionado"));
+
+document.getElementById("eventoInfo").innerHTML = evento ? `
+<p><strong>Evento:</strong> ${evento.nome}</p>
+<p><strong>Descrição:</strong> ${evento.descricao}</p>
+<p><strong>Data:</strong> ${evento.data}</p>
+<p><strong>Local:</strong> ${evento.local}</p>
+` : "<p>Evento não encontrado.</p>";
+
+let inscricoes = JSON.parse(localStorage.getItem("inscricoes")) || [];
+
+function confirmarInscricao(){
+
+const nome = document.getElementById("nome").value.trim();
+const nascimento = document.getElementById("nascimento").value;
+const celular = document.getElementById("celular").value.trim();
+
+if(!nome || !nascimento || !celular){
+    alert("Preencha todos os campos.");
+    return;
+}
+
+inscricoes.push({
+    evento: evento.nome,
+    nome: nome,
+    nascimento: nascimento,
+    celular: celular
+});
+
+localStorage.setItem("inscricoes", JSON.stringify(inscricoes));
+localStorage.setItem("eventoConfirmado", JSON.stringify(evento));
+
+window.location.href = "confirmacao.html";
+
+}
+
+function sair(){
+localStorage.removeItem("tipoUsuario");
+window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

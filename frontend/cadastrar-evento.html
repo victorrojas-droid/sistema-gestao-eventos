@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastrar Evento</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:40px;
+    background: linear-gradient(135deg, #121212, #1e1428);
+}
+
+/* TOPBAR */
+
+.topbar{
+    position:fixed;
+    top:20px;
+    left:20px;
+    right:20px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    z-index:999;
+    pointer-events:none;
+}
+
+.topbar-esquerda,
+.topbar-direita{
+    display:flex;
+    gap:10px;
+    pointer-events:auto;
+}
+
+.topbar-direita{
+    justify-content:flex-end;
+}
+
+.topbar-titulo{
+    justify-self:center;
+    background:#ffffffcc;
+    padding:10px 18px;
+    border-radius:10px;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
+    backdrop-filter:blur(5px);
+    font-weight:bold;
+}
+
+.top-btn{
+    background:#ffffffcc;
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
+}
+
+.top-btn:hover{
+    background:#f0f0f0;
+}
+
+.gif-superior-direito{
+    width:120px;
+    height:120px;
+    background-image:url("background.gif");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+/* FORM */
+
+.container{
+    max-width:800px;
+    margin:80px auto 0;
+    background:#fff;
+    padding:24px;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h1{
+    color:#333;
+    margin-top:0;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+input, textarea, button{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+textarea{
+    resize:vertical;
+    min-height:90px;
+}
+
+button{
+    background:#333;
+    color:white;
+    border:none;
+    cursor:pointer;
+    margin-top:8px;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+<div class="topbar-esquerda">
+<button class="top-btn" onclick="history.back()">⬅ Voltar</button>
+<button class="top-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+<button class="top-btn" onclick="window.location.href='organizador.html'">Menu</button>
+<button class="top-btn" onclick="sair()">Sair</button>
+</div>
+
+<div class="topbar-titulo">Cadastrar Evento</div>
+
+<div class="topbar-direita">
+<div class="gif-superior-direito"></div>
+</div>
+
+</div>
+
+<div class="container">
+
+<h1>Novo Evento</h1>
+
+<div class="form-group">
+<label for="nomeEvento">Nome do evento</label>
+<input type="text" id="nomeEvento">
+</div>
+
+<div class="form-group">
+<label for="descricaoEvento">Descrição</label>
+<textarea id="descricaoEvento"></textarea>
+</div>
+
+<div class="form-group">
+<label for="dataEvento">Data do evento</label>
+<input type="date" id="dataEvento">
+</div>
+
+<div class="form-group">
+<label for="localEvento">Local do evento</label>
+<input type="text" id="localEvento">
+</div>
+
+<button onclick="cadastrarEvento()">Cadastrar Evento</button>
+
+</div>
+
+<script>
+
+let eventos = JSON.parse(localStorage.getItem("eventos")) || [];
+
+function salvarEventos(){
+    localStorage.setItem("eventos", JSON.stringify(eventos));
+}
+
+function cadastrarEvento(){
+
+const nome = document.getElementById("nomeEvento").value.trim();
+const descricao = document.getElementById("descricaoEvento").value.trim();
+const data = document.getElementById("dataEvento").value;
+const local = document.getElementById("localEvento").value.trim();
+
+if(!nome || !descricao || !data || !local){
+alert("Preencha todos os campos do evento.");
+return;
+}
+
+const evento = {
+nome:nome,
+descricao:descricao,
+data:data,
+local:local
+};
+
+eventos.push(evento);
+salvarEventos();
+
+alert("Evento cadastrado com sucesso!");
+
+document.getElementById("nomeEvento").value = "";
+document.getElementById("descricaoEvento").value = "";
+document.getElementById("dataEvento").value = "";
+document.getElementById("localEvento").value = "";
+
+}
+
+function sair(){
+localStorage.removeItem("tipoUsuario");
+window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

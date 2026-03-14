@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eventos Cadastrados</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:40px;
+    background: linear-gradient(135deg, #121212, #1e1428);
+}
+
+/* TOPBAR */
+
+.topbar{
+    position:fixed;
+    top:20px;
+    left:20px;
+    right:20px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    z-index:999;
+    pointer-events:none;
+}
+
+.topbar-esquerda,
+.topbar-direita{
+    display:flex;
+    gap:10px;
+    pointer-events:auto;
+}
+
+.topbar-direita{
+    justify-content:flex-end;
+}
+
+.topbar-titulo{
+    justify-self:center;
+    background:#ffffffcc;
+    padding:10px 18px;
+    border-radius:10px;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
+    backdrop-filter:blur(5px);
+    font-weight:bold;
+}
+
+.top-btn{
+    background:#ffffffcc;
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
+}
+
+.top-btn:hover{
+    background:#f0f0f0;
+}
+
+.gif-superior-direito{
+    width:120px;
+    height:120px;
+    background-image:url("background.gif");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+/* CONTEÚDO */
+
+.container{
+    max-width:900px;
+    margin:80px auto 0;
+    background:#fff;
+    padding:24px;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h1{
+    color:#333;
+    margin-top:0;
+}
+
+.evento{
+    position:relative;
+    background:#f9f9f9;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:14px;
+    margin-top:12px;
+}
+
+.lixeira{
+    position:absolute;
+    top:10px;
+    right:10px;
+    cursor:pointer;
+    font-size:18px;
+    color:#e53935;
+}
+
+.botao-ver{
+    background:#3949ab;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:10px;
+    width:100%;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+.botao-ver:hover{
+    opacity:0.9;
+}
+
+.vazio{
+    background:#f9f9f9;
+    border:1px dashed #ccc;
+    border-radius:10px;
+    padding:14px;
+    color:#777;
+    margin-top:12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+<div class="topbar-esquerda">
+<button class="top-btn" onclick="history.back()">⬅ Voltar</button>
+<button class="top-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+<button class="top-btn" onclick="window.location.href='organizador.html'">Menu</button>
+<button class="top-btn" onclick="sair()">Sair</button>
+</div>
+
+<div class="topbar-titulo">Eventos Cadastrados</div>
+
+<div class="topbar-direita">
+<div class="gif-superior-direito"></div>
+</div>
+
+</div>
+
+<div class="container">
+
+<h1>Lista de Eventos</h1>
+<div id="listaEventos"></div>
+
+</div>
+
+<script>
+
+let eventos = JSON.parse(localStorage.getItem("eventos")) || [];
+let inscricoes = JSON.parse(localStorage.getItem("inscricoes")) || [];
+
+function salvarEventos(){
+    localStorage.setItem("eventos", JSON.stringify(eventos));
+}
+
+function salvarInscricoes(){
+    localStorage.setItem("inscricoes", JSON.stringify(inscricoes));
+}
+
+function excluirEvento(indice){
+
+const nomeEvento = eventos[indice].nome;
+
+eventos.splice(indice,1);
+inscricoes = inscricoes.filter(i => i.evento !== nomeEvento);
+
+salvarEventos();
+salvarInscricoes();
+mostrarEventos();
+
+}
+
+function abrirInscricoes(nomeEvento){
+    localStorage.setItem("eventoSelecionadoOrganizador", nomeEvento);
+    window.location.href = "inscricoes-evento.html";
+}
+
+function mostrarEventos(){
+
+const lista = document.getElementById("listaEventos");
+
+if(eventos.length === 0){
+    lista.className = "vazio";
+    lista.innerHTML = "Nenhum evento cadastrado.";
+    return;
+}
+
+let conteudo = "";
+
+for(let i=0; i<eventos.length; i++){
+    conteudo += `
+    <div class="evento">
+        <span class="lixeira" onclick="excluirEvento(${i})">🗑️</span>
+        <h3>${eventos[i].nome}</h3>
+        <p><strong>Descrição:</strong> ${eventos[i].descricao}</p>
+        <p><strong>Data:</strong> ${eventos[i].data}</p>
+        <p><strong>Local:</strong> ${eventos[i].local}</p>
+        <button class="botao-ver" onclick="abrirInscricoes('${eventos[i].nome}')">Ver inscrições</button>
+    </div>
+    `;
+}
+
+lista.innerHTML = conteudo;
+
+}
+
+function sair(){
+localStorage.removeItem("tipoUsuario");
+window.location.href = "index.html";
+}
+
+mostrarEventos();
+
+</script>
+
+</body>
+</html>
